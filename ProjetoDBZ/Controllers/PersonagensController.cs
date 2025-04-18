@@ -46,4 +46,15 @@ public class PersonagensController(AppDbContext context) : ControllerBase
         await _context.SaveChangesAsync();
         return Ok(personagemExistente);
     }
+
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> DeletePersonagem(int id)
+    {
+        var personagem = await _context.Dbz.FindAsync(id);
+        if (personagem is null)
+            return NotFound("Personagem não encontrado!");
+        _context.Dbz.Remove(personagem);
+        await _context.SaveChangesAsync();
+        return NoContent();
+    }
 }
