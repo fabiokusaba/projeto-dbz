@@ -36,4 +36,14 @@ public class PersonagensController(AppDbContext context) : ControllerBase
         }
         return Ok(personagem);
     }
+
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> UpdatePersonagem(int id, Personagem personagemAtualizado)
+    {
+        var personagemExistente = await _context.Dbz.FindAsync(id);
+        if (personagemExistente is null) return NotFound("Personagem não encontrado!");
+        _context.Entry(personagemExistente).CurrentValues.SetValues(personagemAtualizado);
+        await _context.SaveChangesAsync();
+        return Ok(personagemExistente);
+    }
 }
