@@ -25,4 +25,15 @@ public class PersonagensController(AppDbContext context) : ControllerBase
         var personagens = await _context.Dbz.ToListAsync();
         return Ok(personagens);
     }
+
+    [HttpGet("{id:int}")]
+    public async Task<IActionResult> GetPersonagem(int id)
+    {
+        var personagem = await _context.Dbz.FindAsync(id);
+        if (personagem is null)
+        {
+            return NotFound("Personagem não encontrado!");
+        }
+        return Ok(personagem);
+    }
 }
